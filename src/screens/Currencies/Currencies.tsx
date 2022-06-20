@@ -1,24 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { SafeAreaView, Text, Button, StyleSheet } from 'react-native'
 
-import { CurrenciesNavigationProps } from '../../types/Navigation'
+import { AppContext } from '../../store'
 
-const Currencies = ({ navigation }: CurrenciesNavigationProps) => {
-  const onNavigateToCurrency = () => {
-    navigation.navigate('Currency')
-  }
-
-  const onNavigateToAddCurrency = () => {
-    navigation.navigate('AddCurrency')
-  }
-
+const Currencies = () => {
+  const { state, dispatch } = useContext(AppContext)
   return (
     <SafeAreaView style={styles.screen}>
       <Text>Currencies screen</Text>
-      <Button onPress={onNavigateToCurrency} title="go to Currency screen" />
+      <Text>{`current value: ${state.isFetching}`}</Text>
       <Button
-        onPress={onNavigateToAddCurrency}
-        title="go to AddCurrency screen"
+        title="set to true"
+        onPress={() => dispatch({ type: 'SET_IS_FETCHING_TRUE' })}
+      />
+      <Button
+        title="set to false"
+        onPress={() => dispatch({ type: 'SET_IS_FETCHING_FALSE' })}
       />
     </SafeAreaView>
   )
