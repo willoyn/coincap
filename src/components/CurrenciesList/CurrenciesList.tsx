@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import {
   RecyclerListView,
@@ -18,6 +18,7 @@ type Props = {
   data: Assets
   onItemPressed: () => void
   onAddItemPressed: () => void
+  onEndReached: () => void
 }
 
 type ListDataItem = {
@@ -28,7 +29,12 @@ type ListDataItem = {
   }
 }
 
-const CurrenciesList = ({ data, onItemPressed, onAddItemPressed }: Props) => {
+const CurrenciesList = ({
+  data,
+  onItemPressed,
+  onAddItemPressed,
+  onEndReached,
+}: Props) => {
   const listData = data.map((item, index) => {
     const listItem: ListDataItem = {
       type: 'DEFAULT',
@@ -44,6 +50,13 @@ const CurrenciesList = ({ data, onItemPressed, onAddItemPressed }: Props) => {
   const [list, setList] = useState(
     new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(listData),
   )
+
+  useEffect(() => {
+    if (data.length) {
+      setList(new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(listData))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.length])
 
   const layoutProvider = new LayoutProvider(
     index => list.getDataForIndex(index).type,
@@ -76,6 +89,7 @@ const CurrenciesList = ({ data, onItemPressed, onAddItemPressed }: Props) => {
       rowRenderer={rowRenderer}
       dataProvider={list}
       layoutProvider={layoutProvider}
+      onEndReached={onEndReached}
     />
   )
 }

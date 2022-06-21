@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
@@ -8,8 +8,16 @@ import CustomStatusBar from '../../components/CustomStatusBar/CustomStatusBar'
 
 import useCurrencies from '../../hooks/useCurrencies'
 
+import { AppContext } from '../../store'
+
 const Currencies = () => {
-  const currencies = useCurrencies(0)
+  const {
+    state: {
+      currencies: { isFetching },
+    },
+  } = useContext(AppContext)
+  const [listOffset, setListOffset] = useState(0)
+  const currencies = useCurrencies(listOffset)
 
   const onItemPress = () => {
     console.log('item was pressed')
@@ -17,6 +25,10 @@ const Currencies = () => {
 
   const onAddItemPress = () => {
     console.log('add item button was pressed')
+  }
+
+  const onListEndReached = () => {
+    setListOffset(offset => offset + 10)
   }
 
   return (
@@ -28,10 +40,12 @@ const Currencies = () => {
             data={currencies}
             onItemPressed={onItemPress}
             onAddItemPressed={onAddItemPress}
+            onEndReached={onListEndReached}
           />
         ) : (
           <CustomLoader />
         )}
+        {currencies.length && isFetching ? <CustomLoader /> : null}
       </View>
     </SafeAreaView>
   )
