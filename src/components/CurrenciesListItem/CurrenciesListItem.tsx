@@ -55,12 +55,22 @@ const CurrenciesListItem = ({
   )
 }
 
+const itemHeight = hp(10.3)
+const itemHeightMargin = hp(2)
+export const itemTotalHeight = itemHeight + itemHeightMargin
+
+const itemWidth = wp(90)
+const itemWidthMargin = wp(10)
+export const itemTotalWidth = itemWidth + itemWidthMargin
+
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
-    width: '100%',
-    height: hp(10.3),
-    marginBottom: hp(2),
+    alignSelf: 'center',
+    width: itemWidth,
+    marginHorizontal: itemWidthMargin,
+    height: itemHeight,
+    marginBottom: itemHeightMargin,
     paddingHorizontal: wp(2.3),
     paddingVertical: hp(1.5),
     borderRadius: wp(3),
