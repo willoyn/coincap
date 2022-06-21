@@ -1,22 +1,19 @@
 import React, { useContext } from 'react'
-import { SafeAreaView, Text, Button, StyleSheet } from 'react-native'
+import { SafeAreaView, Text, StyleSheet } from 'react-native'
+import useCurrencies from '../../hooks/useCurrencies'
 
 import { AppContext } from '../../store'
 
 const Currencies = () => {
-  const { state, dispatch } = useContext(AppContext)
+  const { state } = useContext(AppContext)
+  const currencies = useCurrencies(0)
   return (
     <SafeAreaView style={styles.screen}>
-      <Text>Currencies screen</Text>
-      <Text>{`current value: ${state.isFetching}`}</Text>
-      <Button
-        title="set to true"
-        onPress={() => dispatch({ type: 'SET_IS_FETCHING_TRUE' })}
-      />
-      <Button
-        title="set to false"
-        onPress={() => dispatch({ type: 'SET_IS_FETCHING_FALSE' })}
-      />
+      <Text>{`isError: ${state.currencies.isError}`}</Text>
+      <Text>{`isFetching: ${state.currencies.isFetching}`}</Text>
+      {currencies.length ? (
+        <Text>{`Top currency name: ${currencies[0].name}`}</Text>
+      ) : null}
     </SafeAreaView>
   )
 }

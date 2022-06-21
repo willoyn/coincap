@@ -1,3 +1,10 @@
+import { Assets } from '../api/AssetsResponse'
+
 export type AppState = {
-  isFetching: boolean
+  currencies: {
+    data: Assets | any[]
+    isFetching: boolean
+    error: string | null
+    isError: boolean
+  }
 }

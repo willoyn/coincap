@@ -11,7 +11,12 @@ import { AppState } from '../types/store/AppState'
 import { AppActions } from '../types/store/AppActions'
 
 export const initialState: AppState = {
-  isFetching: false,
+  currencies: {
+    data: [],
+    error: null,
+    isFetching: false,
+    isError: false,
+  },
 }
 
 type Context = {
