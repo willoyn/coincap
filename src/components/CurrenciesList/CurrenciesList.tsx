@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import {
   RecyclerListView,
   DataProvider,
@@ -11,6 +11,7 @@ import CurrenciesListItem, {
   itemTotalHeight,
   itemTotalWidth,
 } from '../CurrenciesListItem/CurrenciesListItem'
+import CustomLoader from '../CustomLoader/CustomLoader'
 
 import { Assets, AssetsItem } from '../../types/api/AssetsResponse'
 
@@ -46,7 +47,6 @@ const CurrenciesList = ({
     return listItem
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [list, setList] = useState(
     new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(listData),
   )
@@ -83,6 +83,12 @@ const CurrenciesList = ({
     />
   )
 
+  const footer = () => (
+    <View style={styles.footer}>
+      <CustomLoader />
+    </View>
+  )
+
   return (
     <RecyclerListView
       style={styles.list}
@@ -90,6 +96,7 @@ const CurrenciesList = ({
       dataProvider={list}
       layoutProvider={layoutProvider}
       onEndReached={onEndReached}
+      renderFooter={footer}
     />
   )
 }
@@ -98,6 +105,9 @@ const styles = StyleSheet.create({
   list: {
     width: '100%',
     height: '100%',
+  },
+  footer: {
+    flex: 1,
   },
 })
 
