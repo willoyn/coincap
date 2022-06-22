@@ -36,7 +36,9 @@ const CurrenciesListItem = ({
       <Pressable style={styles.itemInfoPressable} onPress={onItemPress}>
         <View style={styles.firstRow}>
           <Text style={styles.rank}>{`#${rank}`}</Text>
-          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.name} numberOfLines={1}>
+            {name}
+          </Text>
           <ChangeInPercent changeInPercent={changePercent24Hr} />
         </View>
         <View style={styles.secondRow}>
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: 'black',
     marginHorizontal: wp(1.5),
+    maxWidth: wp(50),
   },
   secondRow: {
     flexDirection: 'row',
