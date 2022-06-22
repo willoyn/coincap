@@ -2,7 +2,9 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 export type CurrenciesStackParamList = {
   Currencies: undefined
-  Currency: undefined
+  Currency: {
+    id: string
+  }
   AddCurrency: undefined
 }
 

@@ -9,7 +9,11 @@ import CustomStatusBar from '../../components/CustomStatusBar/CustomStatusBar'
 import useCurrencies from '../../hooks/useCurrencies'
 import { AppContext } from '../../store'
 
-const Currencies = () => {
+import { CurrenciesNavigationProps } from '../../types/Navigation'
+
+const Currencies = ({
+  navigation: { navigate },
+}: CurrenciesNavigationProps) => {
   const {
     state: {
       currencies: { isFetching },
@@ -18,9 +22,7 @@ const Currencies = () => {
   const [listOffset, setListOffset] = useState(0)
   const currencies = useCurrencies(listOffset)
 
-  const onItemPress = () => {
-    console.log('item was pressed')
-  }
+  const onItemPress = (id: string) => navigate('Currency', { id })
 
   const onAddItemPress = () => {
     console.log('add item button was pressed')

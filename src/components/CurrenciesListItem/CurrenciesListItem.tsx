@@ -12,12 +12,12 @@ import { AssetsItem } from '../../types/api/AssetsResponse'
 
 type Props = {
   data: AssetsItem
-  onItemPress: () => void
+  onItemPress: (id: string) => void
   onAddItemPress: () => void
 }
 
 const CurrenciesListItem = ({
-  data: { changePercent24Hr, marketCapUsd, name, priceUsd, rank, symbol },
+  data: { changePercent24Hr, marketCapUsd, name, priceUsd, rank, symbol, id },
   onItemPress,
   onAddItemPress,
 }: Props) => {
@@ -33,7 +33,10 @@ const CurrenciesListItem = ({
 
   return (
     <View style={styles.mainContainer}>
-      <Pressable style={styles.itemInfoPressable} onPress={onItemPress}>
+      <Pressable
+        style={styles.itemInfoPressable}
+        onPress={() => onItemPress(id)}
+      >
         <View style={styles.firstRow}>
           <Text style={styles.rank}>{`#${rank}`}</Text>
           <Text style={styles.name} numberOfLines={1}>

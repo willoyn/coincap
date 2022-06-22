@@ -3,13 +3,16 @@ import { SafeAreaView, Text, Button, StyleSheet } from 'react-native'
 
 import { CurrencyNavigationProps } from '../../types/Navigation'
 
-const Currency = ({ navigation }: CurrencyNavigationProps) => {
-  const onPress = () => {
-    navigation.goBack()
-  }
+const Currency = ({
+  navigation: { goBack },
+  route: {
+    params: { id },
+  },
+}: CurrencyNavigationProps) => {
+  const onPress = () => goBack()
   return (
     <SafeAreaView style={styles.screen}>
-      <Text>Currency screen</Text>
+      <Text>Currency {id} screen</Text>
       <Button onPress={onPress} title="go back" />
     </SafeAreaView>
   )
