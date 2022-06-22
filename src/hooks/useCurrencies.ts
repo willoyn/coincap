@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useCallback } from 'react'
 
 import { AppContext } from '../store'
 import { assetsEndpoint } from '../api/assets'
@@ -26,10 +26,11 @@ const useCurrencies = (offset: number, limit = 10) => {
       })
   }
 
+  const fetcherCallback = useCallback(fetcher, [offset, limit, dispatch])
+
   useEffect(() => {
-    fetcher()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset, limit])
+    fetcherCallback()
+  }, [offset, limit, fetcherCallback])
 
   return state.currencies.data
 }
