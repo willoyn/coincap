@@ -1,34 +1,56 @@
-import React from 'react'
-import { SafeAreaView, Text, Button, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
-import { CurrenciesNavigationProps } from '../../types/Navigation'
+import CurrenciesList from '../../components/CurrenciesList/CurrenciesList'
+import CustomLoader from '../../components/CustomLoader/CustomLoader'
+import CustomStatusBar from '../../components/CustomStatusBar/CustomStatusBar'
 
-const Currencies = ({ navigation }: CurrenciesNavigationProps) => {
-  const onNavigateToCurrency = () => {
-    navigation.navigate('Currency')
+import useCurrencies from '../../hooks/useCurrencies'
+
+const Currencies = () => {
+  const [listOffset, setListOffset] = useState(0)
+  const currencies = useCurrencies(listOffset)
+
+  const onItemPress = () => {
+    console.log('item was pressed')
   }
 
-  const onNavigateToAddCurrency = () => {
-    navigation.navigate('AddCurrency')
+  const onAddItemPress = () => {
+    console.log('add item button was pressed')
+  }
+
+  const onListEndReached = () => {
+    setListOffset(offset => offset + 10)
   }
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <Text>Currencies screen</Text>
-      <Button onPress={onNavigateToCurrency} title="go to Currency screen" />
-      <Button
-        onPress={onNavigateToAddCurrency}
-        title="go to AddCurrency screen"
-      />
+    <SafeAreaView style={styles.safeArea}>
+      <CustomStatusBar />
+      <View style={styles.screen}>
+        {currencies.length ? (
+          <CurrenciesList
+            data={currencies}
+            onItemPressed={onItemPress}
+            onAddItemPressed={onAddItemPress}
+            onEndReached={onListEndReached}
+          />
+        ) : (
+          <CustomLoader />
+        )}
+      </View>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  safeArea: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#e5e4e2',
+  },
+  screen: {
+    backgroundColor: '#e5e4e2',
+    paddingTop: hp(2),
   },
 })
 
