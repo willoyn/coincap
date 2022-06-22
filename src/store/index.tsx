@@ -17,6 +17,12 @@ export const initialState: AppState = {
     isFetching: false,
     isError: false,
   },
+  currenciesHistory: {
+    data: [],
+    error: null,
+    isFetching: false,
+    isError: false,
+  },
 }
 
 type Context = {
