@@ -4,6 +4,7 @@ export type CurrenciesStackParamList = {
   Currencies: undefined
   Currency: {
     id: string
+    name: string
   }
   AddCurrency: undefined
 }

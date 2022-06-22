@@ -22,7 +22,9 @@ const Currencies = ({
   const [listOffset, setListOffset] = useState(0)
   const currencies = useCurrencies(listOffset)
 
-  const onItemPress = (id: string) => navigate('Currency', { id })
+  const onItemPress = (id: string, name: string) => {
+    navigate('Currency', { id, name })
+  }
 
   const onAddItemPress = () => {
     console.log('add item button was pressed')
