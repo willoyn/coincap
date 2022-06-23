@@ -42,7 +42,7 @@ const CurrencyHistoryGraph = ({ history }: Props) => {
 
   const priceLabelFormatter = (price: number) => {
     if (price < 10) {
-      return `$${price.toFixed(5)}`
+      return `$${price.toFixed(4)}`
     }
     return `$${Math.round(price)}`
   }
@@ -64,7 +64,7 @@ const CurrencyHistoryGraph = ({ history }: Props) => {
     labels: {
       formatter: dateLabelFormatter,
       label: {
-        fontSize: 8,
+        fontSize: 10,
         dy: -hp(1.8),
       },
     },
@@ -72,14 +72,14 @@ const CurrencyHistoryGraph = ({ history }: Props) => {
 
   // VerticalAxis is actually horizontal and HorizontalAxis is vertical
   return (
-    <GestureHandlerRootView style={styles.gestureHandler}>
+    <GestureHandlerRootView style={styles.graph}>
       <Chart
         style={styles.graph}
         data={graphData}
         padding={styles.graphPaddings}
       >
         <VerticalAxis theme={horizontalAxisTheme} tickCount={10} />
-        <HorizontalAxis theme={verticalAxisTheme} tickCount={10} />
+        <HorizontalAxis theme={verticalAxisTheme} tickCount={8} />
         <Area theme={areaTheme} />
         <Line />
       </Chart>
@@ -88,17 +88,14 @@ const CurrencyHistoryGraph = ({ history }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  gestureHandler: {
-    flex: 1,
-  },
   graph: {
-    width: wp(90),
     height: hp(35),
+    width: wp(90),
   },
   graphPaddings: {
     top: hp(1),
     left: wp(12),
-    right: wp(3.8),
+    right: wp(4),
     bottom: hp(2),
   },
 })
