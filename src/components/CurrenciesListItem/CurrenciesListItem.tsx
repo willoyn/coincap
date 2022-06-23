@@ -8,6 +8,8 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ChangeInPercent from './ChangeInPercent'
 
+import getLocaleString from '../../hooks/getLocaleString'
+
 import { AssetsItem } from '../../types/api/AssetsResponse'
 
 type Props = {
@@ -22,14 +24,7 @@ const CurrenciesListItem = ({
   onAddItemPress,
 }: Props) => {
   const usdExchangeTitle = `1 ${symbol} = $${Number(priceUsd).toFixed(2)}`
-
-  /* .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") is 
-     equal to .toLocaleString('en-US') but it works on Android too;
-     using it because .toLocaleString('en-US') works on iOS only
-   */
-  const capitalizationTitle = `$${Math.round(Number(marketCapUsd))
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+  const capitalizationTitle = getLocaleString(marketCapUsd, true)
 
   return (
     <View style={styles.mainContainer}>
