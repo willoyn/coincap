@@ -28,6 +28,32 @@ export default (state: AppState, action: AppActions) => {
       stateCopy.currencies.isFetching = true
       return stateCopy
     }
+    case 'SET_CURRENCY_HISTORY_DATA': {
+      const stateCopy = { ...state }
+      stateCopy.currenciesHistory.data.push({
+        currencyId: action.payload.currencyId,
+        data: action.payload.data.data,
+        historyInterval: action.payload.historyInterval,
+      })
+      stateCopy.currenciesHistory.isError = false
+      return stateCopy
+    }
+    case 'SET_CURRENCY_HISTORY_FETCHING_ERROR': {
+      const stateCopy = { ...state }
+      stateCopy.currenciesHistory.isError = true
+      stateCopy.currenciesHistory.error = action.payload
+      return stateCopy
+    }
+    case 'SET_CURRENCY_HISTORY_IS_FETCHING_FALSE': {
+      const stateCopy = { ...state }
+      stateCopy.currenciesHistory.isFetching = false
+      return stateCopy
+    }
+    case 'SET_CURRENCY_HISTORY_IS_FETCHING_TRUE': {
+      const stateCopy = { ...state }
+      stateCopy.currenciesHistory.isFetching = true
+      return stateCopy
+    }
     default:
       console.log('reducer default case')
       return state

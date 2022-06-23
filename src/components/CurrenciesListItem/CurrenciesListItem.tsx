@@ -8,32 +8,30 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ChangeInPercent from './ChangeInPercent'
 
+import getLocaleString from '../../hooks/getLocaleString'
+
 import { AssetsItem } from '../../types/api/AssetsResponse'
 
 type Props = {
   data: AssetsItem
-  onItemPress: () => void
+  onItemPress: (id: string, name: string) => void
   onAddItemPress: () => void
 }
 
 const CurrenciesListItem = ({
-  data: { changePercent24Hr, marketCapUsd, name, priceUsd, rank, symbol },
+  data: { changePercent24Hr, marketCapUsd, name, priceUsd, rank, symbol, id },
   onItemPress,
   onAddItemPress,
 }: Props) => {
   const usdExchangeTitle = `1 ${symbol} = $${Number(priceUsd).toFixed(2)}`
-
-  /* .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") is 
-     equal to .toLocaleString('en-US') but it works on Android too;
-     using it because .toLocaleString('en-US') works on iOS only
-   */
-  const capitalizationTitle = `$${Math.round(Number(marketCapUsd))
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+  const capitalizationTitle = getLocaleString(marketCapUsd, true)
 
   return (
     <View style={styles.mainContainer}>
-      <Pressable style={styles.itemInfoPressable} onPress={onItemPress}>
+      <Pressable
+        style={styles.itemInfoPressable}
+        onPress={() => onItemPress(id, name)}
+      >
         <View style={styles.firstRow}>
           <Text style={styles.rank}>{`#${rank}`}</Text>
           <Text style={styles.name} numberOfLines={1}>

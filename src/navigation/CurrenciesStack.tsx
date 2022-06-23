@@ -10,14 +10,22 @@ import { CurrenciesStackParamList } from '../types/Navigation'
 const Stack = createNativeStackNavigator<CurrenciesStackParamList>()
 
 const CurrenciesStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <Stack.Screen name="Currencies" component={Currencies} />
-    <Stack.Screen name="Currency" component={Currency} />
-    <Stack.Screen name="AddCurrency" component={AddCurrency} />
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Currencies"
+      component={Currencies}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Currency"
+      component={Currency}
+      options={({ route }) => ({ title: route.params.name })}
+    />
+    <Stack.Screen
+      name="AddCurrency"
+      component={AddCurrency}
+      options={({ route }) => ({ title: route.params.name })}
+    />
   </Stack.Navigator>
 )
 
