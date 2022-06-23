@@ -6,7 +6,10 @@ export type CurrenciesStackParamList = {
     id: string
     name: string
   }
-  AddCurrency: undefined
+  AddCurrency: {
+    id: string
+    name: string
+  }
 }
 
 export type CurrenciesNavigationProps = NativeStackScreenProps<

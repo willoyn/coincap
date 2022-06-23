@@ -24,7 +24,7 @@ const CurrenciesStack = () => (
     <Stack.Screen
       name="AddCurrency"
       component={AddCurrency}
-      options={{ headerShown: false }}
+      options={({ route }) => ({ title: route.params.name })}
     />
   </Stack.Navigator>
 )
