@@ -15,7 +15,7 @@ const useCurrencyHistory = (id: string, interval: AssetsHistoryInterval) => {
   const { state, dispatch } = useContext(AppContext)
   const [currencyHistory, setCurrencyHistory] = useState<AssetHistory>([])
 
-  const currenciesHistoryItemIndex = state.currenciesHistory.data.findIndex(
+  const cachedItemIndex = state.currenciesHistory.data.findIndex(
     (item: AssetsHistoryItem) =>
       item.currencyId === id && item.historyInterval === interval,
   )
@@ -47,18 +47,16 @@ const useCurrencyHistory = (id: string, interval: AssetsHistoryInterval) => {
   const fetcherCallback = useCallback(fetcher, [id, interval, dispatch])
 
   useEffect(() => {
-    if (currenciesHistoryItemIndex === -1) {
+    if (cachedItemIndex === -1) {
       fetcherCallback()
     } else {
-      setCurrencyHistory(
-        state.currenciesHistory.data[currenciesHistoryItemIndex].data,
-      )
+      setCurrencyHistory(state.currenciesHistory.data[cachedItemIndex].data)
     }
   }, [
     id,
     interval,
     fetcherCallback,
-    currenciesHistoryItemIndex,
+    cachedItemIndex,
     state.currenciesHistory.data,
   ])
 
