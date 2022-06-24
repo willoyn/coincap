@@ -6,7 +6,7 @@ import { AssetsItem } from '../types/api/AssetsResponse'
 const useCurrency = (id: string) => {
   const { state } = useContext(AppContext)
 
-  const currency = state.currencies.data.find(
+  const currency: AssetsItem = state.currencies.data.find(
     (item: AssetsItem) => item.id === id,
   )
 
