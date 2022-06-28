@@ -23,12 +23,18 @@ export const initialState: AppState = {
     isFetching: false,
     isError: false,
   },
+  portfolio: {
+    isLoading: false,
+    timestampWhenLastUpdated: undefined,
+  },
 }
 
 type Context = {
   state: AppState
-  dispatch: Dispatch<AppActions>
+  dispatch: AppDispatch
 }
+
+export type AppDispatch = Dispatch<AppActions>
 
 export const AppContext = createContext<Context>({
   state: initialState,

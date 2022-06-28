@@ -10,6 +10,15 @@ export type AssetsHistoryItem = {
   data: AssetHistory
 }
 
+export type PortfolioList = Array<PortfolioListItem>
+
+export type PortfolioListItem = {
+  id: string
+  name: string
+  currencyValue: number
+  currencyValueInUsdWhenAdded: number
+}
+
 export type AppState = {
   currencies: {
     data: Assets | any[]
@@ -22,5 +31,9 @@ export type AppState = {
     isFetching: boolean
     error: string | null
     isError: boolean
+  }
+  portfolio: {
+    isLoading: boolean
+    timestampWhenLastUpdated?: number
   }
 }
