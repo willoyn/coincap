@@ -54,6 +54,21 @@ export default (state: AppState, action: AppActions) => {
       stateCopy.currenciesHistory.isFetching = true
       return stateCopy
     }
+    case 'SET_PORTFOLIO_LIST_IS_LOADING_TRUE': {
+      const stateCopy = { ...state }
+      stateCopy.portfolio.isLoading = true
+      return stateCopy
+    }
+    case 'SET_PORTFOLIO_LIST_IS_LOADING_FALSE': {
+      const stateCopy = { ...state }
+      stateCopy.portfolio.isLoading = false
+      return stateCopy
+    }
+    case 'SET_PORTFOLIO_LAST_UPDATED_TIMESTAMP': {
+      const stateCopy = { ...state }
+      stateCopy.portfolio.timestampWhenLastUpdated = Date.now()
+      return stateCopy
+    }
     default:
       console.log('reducer default case')
       return state

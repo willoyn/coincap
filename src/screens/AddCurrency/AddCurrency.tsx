@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { SafeAreaView, Text, StyleSheet, TextInput, View } from 'react-native'
 import {
   heightPercentageToDP as hp,
@@ -6,8 +6,11 @@ import {
 } from 'react-native-responsive-screen'
 import PressableText from '../../components/PressableText/PressableText'
 
+import addCurrencyToPortfolio from '../../hooks/addCurrencyToPortfolio'
 import getLocaleString from '../../hooks/getLocaleString'
 import useCurrency from '../../hooks/useCurrency'
+
+import { AppContext } from '../../store'
 
 import { AddCurrencyNavigationProps } from '../../types/Navigation'
 
@@ -16,8 +19,9 @@ const AddCurrency = ({
     params: { id },
   },
 }: AddCurrencyNavigationProps) => {
+  const { dispatch } = useContext(AppContext)
   const [additionalCurrency, setAdditionalCurrency] = useState('')
-  const { symbol, priceUsd } = useCurrency(id)
+  const currency = useCurrency(id)
 
   // eslint-disable-next-line no-useless-escape
   const additionalCurrencyRegExp = /[^0-9|\.]|^\.|\.{2,}|\.[0-9]{1,}\./m
@@ -25,11 +29,13 @@ const AddCurrency = ({
     setAdditionalCurrency(text.replace(additionalCurrencyRegExp, ''))
 
   const priseInUsd = getLocaleString(
-    (Number(additionalCurrency) * Number(priceUsd)).toString(),
+    (Number(additionalCurrency) * Number(currency.priceUsd)).toString(),
     true,
   )
 
-  const onButtonPress = () => {}
+  const onButtonPress = () => {
+    addCurrencyToPortfolio(currency, Number(additionalCurrency), dispatch)
+  }
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -42,7 +48,7 @@ const AddCurrency = ({
           autoFocus
           keyboardType="decimal-pad"
         />
-        <Text style={styles.title}>{symbol} to the portfolio</Text>
+        <Text style={styles.title}>{currency.symbol} to the portfolio</Text>
       </View>
       {additionalCurrency ? (
         <>
