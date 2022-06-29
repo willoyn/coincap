@@ -15,7 +15,7 @@ import { AssetsItem } from '../../types/api/AssetsResponse'
 type Props = {
   data: AssetsItem
   onItemPress: (id: string, name: string) => void
-  onAddItemPress: () => void
+  onAddItemPress: (id: string, name: string) => void
 }
 
 const CurrenciesListItem = ({
@@ -48,7 +48,10 @@ const CurrenciesListItem = ({
           <Text style={styles.titleNearIcon}>{capitalizationTitle}</Text>
         </View>
       </Pressable>
-      <Pressable style={styles.addItemPressable} onPress={onAddItemPress}>
+      <Pressable
+        style={styles.addItemPressable}
+        onPress={() => onAddItemPress(id, name)}
+      >
         <FontAwesome5Icon name="plus" color="black" size={16} />
       </Pressable>
     </View>

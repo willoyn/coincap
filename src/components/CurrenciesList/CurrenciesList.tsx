@@ -18,7 +18,7 @@ import { Assets, AssetsItem } from '../../types/api/AssetsResponse'
 type Props = {
   data: Assets
   onItemPressed: (id: string, name: string) => void
-  onAddItemPressed: () => void
+  onAddItemPressed: (id: string, name: string) => void
   onEndReached: () => void
 }
 
