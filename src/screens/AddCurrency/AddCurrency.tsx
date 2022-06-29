@@ -15,6 +15,7 @@ import { AppContext } from '../../store'
 import { AddCurrencyNavigationProps } from '../../types/Navigation'
 
 const AddCurrency = ({
+  navigation,
   route: {
     params: { id },
   },
@@ -35,6 +36,7 @@ const AddCurrency = ({
 
   const onButtonPress = () => {
     addCurrencyToPortfolio(currency, Number(additionalCurrency), dispatch)
+    navigation.goBack()
   }
 
   return (
