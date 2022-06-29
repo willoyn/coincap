@@ -26,8 +26,8 @@ const Currencies = ({
     navigate('Currency', { id, name })
   }
 
-  const onAddItemPress = () => {
-    console.log('add item button was pressed')
+  const onAddItemPress = (id: string, name: string) => {
+    navigate('AddCurrency', { id, name })
   }
 
   const onListEndReached = () => {
