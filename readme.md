@@ -10,3 +10,6 @@ If it's already configured, run:
 - `npm start`
 - for Android: `npm run android`
 - for iOS: `cd ios && pod install && cd ../ && npm run ios`
+
+The app uses a proxy server that is running on localhost:4000. You can clone it from [here.](https://github.com/willoyn/coincap-api)
+Run `adb reverse tcp:4000 tcp:4000` to configure Android emulator to use the localhost server.
