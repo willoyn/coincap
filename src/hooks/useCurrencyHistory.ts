@@ -1,64 +1,55 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
-
-import { assetsEndpoint } from '../api/assets'
+import { useContext, useEffect, useState } from 'react'
+import { useQuery } from '@apollo/client'
+import { ASSET_HISTORY } from '../api/gql'
 import { AppContext } from '../store'
-import { AssetsHistoryInterval } from '../types/api/AssetsHistoryRequest'
 
 import {
   AssetHistory,
-  AssetHistoryResponse,
+  AssetHistoryApolloResponse,
 } from '../types/api/AssetsHistoryResponse'
 import { SetCurrencyHistoryPayload } from '../types/store/AppActions'
-import { AssetsHistoryItem } from '../types/store/AppState'
+import { AssetsHistoryInterval } from '../types/api/AssetsHistoryRequest'
 
 const useCurrencyHistory = (id: string, interval: AssetsHistoryInterval) => {
-  const { state, dispatch } = useContext(AppContext)
+  const { dispatch } = useContext(AppContext)
   const [currencyHistory, setCurrencyHistory] = useState<AssetHistory>([])
 
-  const cachedItemIndex = state.currenciesHistory.data.findIndex(
-    (item: AssetsHistoryItem) =>
-      item.currencyId === id && item.historyInterval === interval,
-  )
-
-  const fetcher = () => {
-    dispatch({ type: 'SET_CURRENCY_HISTORY_IS_FETCHING_TRUE' })
-    fetch(`${assetsEndpoint}/${id}/history?interval=${interval}`)
-      .then(response => response.json())
-      .then((responseData: AssetHistoryResponse) => {
-        const payload: SetCurrencyHistoryPayload = {
-          data: responseData,
-          currencyId: id,
-          historyInterval: interval,
-        }
-        dispatch({ type: 'SET_CURRENCY_HISTORY_DATA', payload })
-        setCurrencyHistory(responseData.data)
-      })
-      .catch(error => {
-        dispatch({
-          type: 'SET_CURRENCY_HISTORY_FETCHING_ERROR',
-          payload: error.toString(),
-        })
-      })
-      .finally(() => {
-        dispatch({ type: 'SET_CURRENCY_HISTORY_IS_FETCHING_FALSE' })
-      })
-  }
-
-  const fetcherCallback = useCallback(fetcher, [id, interval, dispatch])
+  const {
+    loading: isLoading,
+    error,
+    data,
+  } = useQuery<AssetHistoryApolloResponse>(ASSET_HISTORY, {
+    variables: { id, interval },
+  })
 
   useEffect(() => {
-    if (cachedItemIndex === -1) {
-      fetcherCallback()
+    if (isLoading) {
+      dispatch({ type: 'SET_CURRENCY_HISTORY_IS_FETCHING_TRUE' })
     } else {
-      setCurrencyHistory(state.currenciesHistory.data[cachedItemIndex].data)
+      dispatch({ type: 'SET_CURRENCY_HISTORY_IS_FETCHING_FALSE' })
     }
-  }, [
-    id,
-    interval,
-    fetcherCallback,
-    cachedItemIndex,
-    state.currenciesHistory.data,
-  ])
+  }, [isLoading, dispatch])
+
+  useEffect(() => {
+    if (error) {
+      dispatch({
+        type: 'SET_CURRENCY_HISTORY_FETCHING_ERROR',
+        payload: error.toString(),
+      })
+    }
+  }, [error, dispatch])
+
+  useEffect(() => {
+    if (data) {
+      const payload: SetCurrencyHistoryPayload = {
+        data: data.getAssetHistory,
+        currencyId: id,
+        historyInterval: interval,
+      }
+      dispatch({ type: 'SET_CURRENCY_HISTORY_DATA', payload })
+      setCurrencyHistory(data.getAssetHistory)
+    }
+  }, [data, dispatch, id, interval])
 
   return currencyHistory
 }

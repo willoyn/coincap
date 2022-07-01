@@ -32,7 +32,7 @@ export default (state: AppState, action: AppActions) => {
       const stateCopy = { ...state }
       stateCopy.currenciesHistory.data.push({
         currencyId: action.payload.currencyId,
-        data: action.payload.data.data,
+        data: action.payload.data,
         historyInterval: action.payload.historyInterval,
       })
       stateCopy.currenciesHistory.isError = false
