@@ -1,9 +1,13 @@
-import { ResponseTemplate } from './ResponseTemplate'
+// import { ResponseTemplate } from './ResponseTemplate'
 
 // https://docs.coincap.io/#89deffa0-ab03-4e0a-8d92-637a857d2c91
 // https://api.coincap.io/v2/assets
-export interface AssetsResponse extends ResponseTemplate {
-  data: Assets
+// export interface AssetsResponse extends ResponseTemplate {
+//   data: Assets
+// }
+
+export type AssetsApolloResponse = {
+  getAssets: Assets
 }
 
 export type Assets = Array<AssetsItem>

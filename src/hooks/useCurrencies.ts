@@ -1,36 +1,46 @@
-import { useEffect, useContext, useCallback } from 'react'
-
+import { useEffect, useContext } from 'react'
+import { useQuery } from '@apollo/client'
 import { AppContext } from '../store'
-import { assetsEndpoint } from '../api/assets'
+import { ASSETS } from '../api/gql'
 
-import { AssetsResponse } from '../types/api/AssetsResponse'
+import { AssetsApolloResponse } from '../types/api/AssetsResponse'
 
 const useCurrencies = (offset: number, limit = 10) => {
   const { state, dispatch } = useContext(AppContext)
 
-  const fetcher = () => {
-    dispatch({ type: 'SET_CURRENCIES_IS_FETCHING_TRUE' })
-    fetch(`${assetsEndpoint}?offset=${offset}&limit=${limit}`)
-      .then(response => response.json())
-      .then((responseData: AssetsResponse) =>
-        dispatch({ type: 'SET_CURRENCIES_DATA', payload: responseData }),
-      )
-      .catch(error => {
-        dispatch({
-          type: 'SET_CURRENCIES_FETCHING_ERROR',
-          payload: error.toString(),
-        })
-      })
-      .finally(() => {
-        dispatch({ type: 'SET_CURRENCIES_IS_FETCHING_FALSE' })
-      })
-  }
-
-  const fetcherCallback = useCallback(fetcher, [offset, limit, dispatch])
+  const {
+    loading: isLoading,
+    error,
+    data,
+  } = useQuery<AssetsApolloResponse>(ASSETS, { variables: { offset, limit } })
 
   useEffect(() => {
-    fetcherCallback()
-  }, [offset, limit, fetcherCallback])
+    if (data) {
+      dispatch({
+        type: 'SET_CURRENCIES_DATA',
+        payload: {
+          data: data.getAssets,
+        },
+      })
+    }
+  }, [data, dispatch])
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch({ type: 'SET_CURRENCIES_IS_FETCHING_TRUE' })
+    } else {
+      dispatch({ type: 'SET_CURRENCIES_IS_FETCHING_FALSE' })
+    }
+  }, [isLoading, dispatch])
+
+  useEffect(() => {
+    if (error) {
+      dispatch({
+        type: 'SET_CURRENCIES_FETCHING_ERROR',
+        payload: error.toString(),
+      })
+    }
+  }, [error, dispatch])
 
   return state.currencies.data
 }
