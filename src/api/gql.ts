@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 
-// eslint-disable-next-line import/prefer-default-export
 export const ASSETS = gql`
   query getAssets($offset: Int!) {
     getAssets(offset: $offset) {
@@ -15,6 +14,17 @@ export const ASSETS = gql`
       changePercent24Hr
       vwap24Hr
       explorer
+    }
+  }
+`
+
+export const ASSET_HISTORY = gql`
+  query getAssetHistory($id: String!, $interval: String!) {
+    getAssetHistory(id: $id, interval: $interval) {
+      priceUsd
+      time
+      circulatingSupply
+      date
     }
   }
 `
