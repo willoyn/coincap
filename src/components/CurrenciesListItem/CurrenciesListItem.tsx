@@ -4,7 +4,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome5Icon from '@expo/vector-icons/FontAwesome5'
+// import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ChangeInPercent from './ChangeInPercent'
 

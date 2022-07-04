@@ -4,7 +4,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import MaterialIcon from '@expo/vector-icons/MaterialIcons'
+// import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 
 type Props = {
   id: string
