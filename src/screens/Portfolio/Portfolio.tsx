@@ -11,6 +11,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
+import { useFonts } from 'expo-font'
 
 import CustomLoader from '../../components/CustomLoader/CustomLoader'
 import PortfolioListItem from '../../components/PortfolioListItem/PortfolioListItem'
@@ -26,6 +27,11 @@ import { AssetsItem } from '../../types/api/AssetsResponse'
 import { PortfolioListItem as PortfolioListItemType } from '../../types/store/AppState'
 
 const Portfolio = () => {
+  const [loaded] = useFonts({
+    'AnekLatin-ExtraBold': require('../../assets/fonts/AnekLatin-ExtraBold.ttf'),
+    'AnekLatin-Medium': require('../../assets/fonts/AnekLatin-Medium.ttf'),
+  })
+
   const {
     state: {
       currencies: { data: relevantCurrencies },
@@ -91,6 +97,10 @@ const Portfolio = () => {
   const onDeleteItemPress = (id: string) =>
     removeCurrencyFromPortfolio(id, dispatch)
 
+  if (!loaded) {
+    return null
+  }
+
   return (
     <SafeAreaView style={styles.screen}>
       {isLoading ? (
@@ -99,7 +109,12 @@ const Portfolio = () => {
         <View style={styles.listContainer}>
           {portfolioList.length ? (
             <>
-              <Text style={styles.listHeader}>
+              <Text
+                style={{
+                  ...styles.listHeader,
+                  fontFamily: 'AnekLatin-ExtraBold',
+                }}
+              >
                 Total amount: {getPortfolioGrowthTitle()}
               </Text>
               <FlatList
@@ -109,7 +124,14 @@ const Portfolio = () => {
               />
             </>
           ) : (
-            <Text style={styles.listPlaceholderTitle}>Portfolio is empty</Text>
+            <Text
+              style={{
+                ...styles.listPlaceholderTitle,
+                fontFamily: 'AnekLatin-Medium',
+              }}
+            >
+              Portfolio is empty
+            </Text>
           )}
         </View>
       )}
@@ -130,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     textAlign: 'center',
-    fontFamily: 'AnekLatin-ExtraBold',
+    // fontFamily: 'AnekLatin-ExtraBold',
     fontSize: 18,
     lineHeight: 18,
     color: 'black',
@@ -138,7 +160,7 @@ const styles = StyleSheet.create({
     maxWidth: wp(90),
   },
   listPlaceholderTitle: {
-    fontFamily: 'AnekLatin-Medium',
+    // fontFamily: 'AnekLatin-Medium',
     fontSize: 18,
     lineHeight: 18,
     color: 'black',

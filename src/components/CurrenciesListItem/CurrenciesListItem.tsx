@@ -6,6 +6,7 @@ import {
 } from 'react-native-responsive-screen'
 import FontAwesome5Icon from '@expo/vector-icons/FontAwesome5'
 // import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import { useFonts } from 'expo-font'
 
 import ChangeInPercent from './ChangeInPercent'
 
@@ -24,8 +25,18 @@ const CurrenciesListItem = ({
   onItemPress,
   onAddItemPress,
 }: Props) => {
+  const [loaded] = useFonts({
+    'AnekLatin-Regular': require('../../assets/fonts/AnekLatin-Regular.ttf'),
+    'AnekLatin-ExtraBold': require('../../assets/fonts/AnekLatin-ExtraBold.ttf'),
+    'AnekLatin-Medium': require('../../assets/fonts/AnekLatin-Medium.ttf'),
+  })
+
   const usdExchangeTitle = `1 ${symbol} = $${Number(priceUsd).toFixed(2)}`
   const capitalizationTitle = getLocaleString(marketCapUsd, true)
+
+  if (!loaded) {
+    return null
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -34,15 +45,24 @@ const CurrenciesListItem = ({
         onPress={() => onItemPress(id, name)}
       >
         <View style={styles.firstRow}>
-          <Text style={styles.rank}>{`#${rank}`}</Text>
-          <Text style={styles.name} numberOfLines={1}>
+          <Text
+            style={{ ...styles.rank, fontFamily: 'AnekLatin-Regular' }}
+          >{`#${rank}`}</Text>
+          <Text
+            style={{ ...styles.name, fontFamily: 'AnekLatin-ExtraBold' }}
+            numberOfLines={1}
+          >
             {name}
           </Text>
           <ChangeInPercent changeInPercent={changePercent24Hr} />
         </View>
         <View style={styles.secondRow}>
           <FontAwesome5Icon name="exchange-alt" style={styles.icon} />
-          <Text style={styles.titleNearIcon}>{usdExchangeTitle}</Text>
+          <Text
+            style={{ ...styles.titleNearIcon, fontFamily: 'AnekLatin-Medium' }}
+          >
+            {usdExchangeTitle}
+          </Text>
         </View>
         <View style={styles.thirdRow}>
           <FontAwesome5Icon name="briefcase" style={styles.icon} />
@@ -93,13 +113,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rank: {
-    fontFamily: 'AnekLatin-Regular',
+    // fontFamily: 'AnekLatin-Regular',
     fontSize: 20,
     lineHeight: 20,
     color: 'black',
   },
   name: {
-    fontFamily: 'AnekLatin-ExtraBold',
+    // fontFamily: 'AnekLatin-ExtraBold',
     fontSize: 20,
     lineHeight: 20,
     color: 'black',
@@ -114,7 +134,7 @@ const styles = StyleSheet.create({
   titleNearIcon: {
     fontSize: 14,
     lineHeight: 14,
-    fontFamily: 'AnekLatin-Medium',
+    // fontFamily: 'AnekLatin-Medium',
     color: '#202020',
   },
   icon: {

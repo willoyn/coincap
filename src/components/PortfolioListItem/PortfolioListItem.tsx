@@ -6,6 +6,7 @@ import {
 } from 'react-native-responsive-screen'
 import MaterialIcon from '@expo/vector-icons/MaterialIcons'
 // import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import { useFonts } from 'expo-font'
 
 type Props = {
   id: string
@@ -20,14 +21,29 @@ const PortfolioListItem = ({
   growthTitle,
   onDeleteItemPress,
 }: Props) => {
+  const [loaded] = useFonts({
+    'AnekLatin-ExtraBold': require('../../assets/fonts/AnekLatin-ExtraBold.ttf'),
+    'AnekLatin-Medium': require('../../assets/fonts/AnekLatin-Medium.ttf'),
+  })
+
   const onPress = () => onDeleteItemPress(id)
+
+  if (!loaded) {
+    return null
+  }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={1}>
+        <Text
+          style={{ ...styles.name, fontFamily: 'AnekLatin-ExtraBold' }}
+          numberOfLines={1}
+        >
           {name}
         </Text>
-        <Text style={styles.growthTitle}>{growthTitle}</Text>
+        <Text style={{ ...styles.growthTitle, fontFamily: 'AnekLatin-Medium' }}>
+          {growthTitle}
+        </Text>
       </View>
       <Pressable style={styles.pressable} onPress={onPress}>
         <MaterialIcon name="delete-outline" color="black" size={22} />
@@ -63,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   name: {
-    fontFamily: 'AnekLatin-ExtraBold',
+    // fontFamily: 'AnekLatin-ExtraBold',
     fontSize: 20,
     lineHeight: 20,
     color: 'black',
@@ -78,7 +94,7 @@ const styles = StyleSheet.create({
   growthTitle: {
     fontSize: 14,
     lineHeight: 14,
-    fontFamily: 'AnekLatin-Medium',
+    // fontFamily: 'AnekLatin-Medium',
     color: '#202020',
   },
   icon: {

@@ -4,6 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
+import { useFonts } from 'expo-font'
 
 type Props = {
   title: string
@@ -17,11 +18,25 @@ const PressableText = ({
   onPress,
   pressableStyle,
   textStyle,
-}: Props) => (
-  <Pressable style={[styles.pressable, pressableStyle]} onPress={onPress}>
-    <Text style={[styles.text, textStyle]}>{title}</Text>
-  </Pressable>
-)
+}: Props) => {
+  const [loaded] = useFonts({
+    'AnekLatin-Bold': require('../../assets/fonts/AnekLatin-Regular.ttf'),
+  })
+
+  if (!loaded) {
+    return null
+  }
+
+  return (
+    <Pressable style={[styles.pressable, pressableStyle]} onPress={onPress}>
+      <Text
+        style={{ ...styles.text, ...textStyle, fontFamily: 'AnekLatin-Bold' }}
+      >
+        {title}
+      </Text>
+    </Pressable>
+  )
+}
 
 PressableText.defaultProps = {
   pressableStyle: {},
@@ -37,7 +52,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   text: {
-    fontFamily: 'AnekLatin-Bold',
+    // fontFamily: 'AnekLatin-Bold',
     fontSize: 16,
     color: 'black',
   },

@@ -4,6 +4,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
+import { useFonts } from 'expo-font'
+
 import PressableText from '../../components/PressableText/PressableText'
 
 import addCurrencyToPortfolio from '../../hooks/addCurrencyToPortfolio'
@@ -20,6 +22,10 @@ const AddCurrency = ({
     params: { id },
   },
 }: AddCurrencyNavigationProps) => {
+  const [loaded] = useFonts({
+    'AnekLatin-Medium': require('../../assets/fonts/AnekLatin-Medium.ttf'),
+  })
+
   const { dispatch } = useContext(AppContext)
   const [additionalCurrency, setAdditionalCurrency] = useState('')
   const currency = useCurrency(id)
@@ -39,6 +45,10 @@ const AddCurrency = ({
     navigation.goBack()
   }
 
+  if (!loaded) {
+    return null
+  }
+
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.inputContainer}>
@@ -50,7 +60,9 @@ const AddCurrency = ({
           autoFocus
           keyboardType="decimal-pad"
         />
-        <Text style={styles.title}>{currency.symbol} to the portfolio</Text>
+        <Text style={{ ...styles.title, fontFamily: 'AnekLatin-Medium' }}>
+          {currency.symbol} to the portfolio
+        </Text>
       </View>
       {additionalCurrency ? (
         <>
@@ -76,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'AnekLatin-Medium',
+    // fontFamily: 'AnekLatin-Medium',
     fontSize: 16,
     lineHeight: 16,
     color: 'black',
