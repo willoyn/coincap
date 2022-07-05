@@ -1,8 +1,8 @@
+package com.coincap;
+
 import android.content.res.Configuration;
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
-package com.coincap;
-
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
