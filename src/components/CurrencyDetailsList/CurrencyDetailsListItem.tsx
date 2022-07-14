@@ -4,18 +4,34 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
+import { useFonts } from 'expo-font'
 
 type Props = {
   title: string
   value: string
 }
 
-const CurrencyDetailsListItem = ({ title, value }: Props) => (
-  <View style={styles.mainContainer}>
-    <Text style={styles.title}>{title}: </Text>
-    <Text style={styles.value}>{value}</Text>
-  </View>
-)
+const CurrencyDetailsListItem = ({ title, value }: Props) => {
+  const [loaded] = useFonts({
+    'AnekLatin-Light': require('../../assets/fonts/AnekLatin-Light.ttf'),
+    'AnekLatin-SemiBold': require('../../assets/fonts/AnekLatin-SemiBold.ttf'),
+  })
+
+  if (!loaded) {
+    return null
+  }
+
+  return (
+    <View style={styles.mainContainer}>
+      <Text style={{ ...styles.title, fontFamily: 'AnekLatin-Light' }}>
+        {title}:{' '}
+      </Text>
+      <Text style={{ ...styles.value, fontFamily: 'AnekLatin-SemiBold' }}>
+        {value}
+      </Text>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -29,14 +45,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'AnekLatin-Light',
+    // fontFamily: 'AnekLatin-Light',
     fontSize: 16,
     color: 'black',
     maxWidth: wp(60),
     marginRight: wp(3),
   },
   value: {
-    fontFamily: 'AnekLatin-SemiBold',
+    // fontFamily: 'AnekLatin-SemiBold',
     fontSize: 16,
     color: 'black',
     flex: 1,

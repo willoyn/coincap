@@ -5,7 +5,7 @@ import Navigation from './src/navigation/Navigation'
 
 const App = () => {
   const client = new ApolloClient({
-    uri: 'http://localhost:4000',
+    uri: 'https://fathomless-lowlands-13461.herokuapp.com',
     cache: new InMemoryCache(),
   })
 
